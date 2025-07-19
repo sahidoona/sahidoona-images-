@@ -76,13 +76,13 @@
   <h2>🖼️ Uploaded Gallery</h2>
   <div id="gallery"></div>
 
-  <!-- Firebase SDK v8 (Compatible version) -->
+  <!-- Firebase v8 SDKs -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
 
   <script>
-    // ✅ Firebase config
-    const firebaseConfig = {
+    // ✅ Replace this with your actual Firebase config
+    var firebaseConfig = {
       apiKey: "AIzaSyDC42B0qmYrxTWrxVkCy9cpxlzsYwA178o",
       authDomain: "sahidoonagallery.firebaseapp.com",
       projectId: "sahidoonagallery",
@@ -92,13 +92,15 @@
       measurementId: "G-ZY8TYN9E5L"
     };
 
+    // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
-    const storage = firebase.storage();
+    var storage = firebase.storage();
 
     const fileInput = document.getElementById("fileInput");
     const previewContainer = document.getElementById("preview-container");
     const gallery = document.getElementById("gallery");
 
+    // Preview selected images
     fileInput.addEventListener("change", () => {
       previewContainer.innerHTML = '';
       Array.from(fileInput.files).forEach(file => {
@@ -109,6 +111,7 @@
       });
     });
 
+    // Upload images to Firebase Storage
     function uploadImages() {
       const files = fileInput.files;
       if (files.length === 0) return alert("Please select at least one image!");
@@ -128,6 +131,7 @@
       alert("Uploading... Images will appear in the gallery shortly.");
     }
 
+    // Load gallery from Firebase Storage
     function loadGallery() {
       const listRef = storage.ref("images/");
       gallery.innerHTML = '';
@@ -147,7 +151,7 @@
               if (confirm("Are you sure you want to delete this image?")) {
                 itemRef.delete().then(() => {
                   alert("Image deleted.");
-                  loadGallery(); // Refresh
+                  loadGallery();
                 }).catch(err => {
                   alert("Delete failed: " + err.message);
                 });
@@ -164,7 +168,7 @@
       });
     }
 
-    // Load on page start
+    // Load existing images when page loads
     loadGallery();
   </script>
 </body>
